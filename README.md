@@ -6,6 +6,9 @@ Some tools that are useful but not explicitly required:
 
 * `shellcheck`
 * `lua-language-server`
+* `mupdf`
+
+Otherwise consider running `:checkhealth` to check for other missing executables.
 
 ## Language servers
 
