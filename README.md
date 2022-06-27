@@ -1,7 +1,5 @@
 # Current nvim setup
 
-Largely based on
-
 ## Language servers
 
 Ensure language servers that are in use in `lsp-installer.lua` are installed. Language servers can be installed using `:LspInstallInfo`
