@@ -45,7 +45,7 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", pyright_opts, opts)
 	end
 
-	if server == "jdtls" then
+	if server == "jdtls" then --jdtls is handled by ftplugin call
 		goto continue
 	end
 
