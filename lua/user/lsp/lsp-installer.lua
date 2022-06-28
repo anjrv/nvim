@@ -8,6 +8,7 @@ local servers = {
 	"gopls",
 	"rust_analyzer",
 	"clangd",
+  "cmake",
 	"r_language_server",
 	"pyright",
 	"csharp_ls",
@@ -18,6 +19,7 @@ local servers = {
 	"jsonls",
 	"yamlls",
 	"sumneko_lua",
+  "dockerls",
 }
 
 lsp_installer.setup()
