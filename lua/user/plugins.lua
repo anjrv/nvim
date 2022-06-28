@@ -75,11 +75,12 @@ return packer.startup(function(use)
   use { "rafamadriz/friendly-snippets", commit = "d27a83a363e61009278b6598703a763ce9c8e617" } -- a bunch of snippets to use
 
   -- LSP
-  use { "neovim/nvim-lspconfig", commit = "b3eb55bd3281673c2ac54e0a22436e4b57caddf7" } -- "148c99bd09b44cf3605151a06869f6b4d4c24455" } -- enable LSP 
+  use { "neovim/nvim-lspconfig", commit = "b3eb55bd3281673c2ac54e0a22436e4b57caddf7" } -- "148c99bd09b44cf3605151a06869f6b4d4c24455" } -- enable LSP
   use { "williamboman/nvim-lsp-installer", commit = "e9f13d7acaa60aff91c58b923002228668c8c9e6" } -- simple to use language server installer
   use { "jose-elias-alvarez/null-ls.nvim", commit = "ff40739e5be6581899b43385997e39eecdbf9465" } -- for formatters and linters
   use { "RRethy/vim-illuminate", commit = "c82e6d04f27a41d7fdcad9be0bce5bb59fcb78e5" }
-  use { 'mfussenegger/nvim-jdtls', commit = "3a148dac526396678f141a033270961d0d9ccb88" }
+  use { "mfussenegger/nvim-jdtls", commit = "3a148dac526396678f141a033270961d0d9ccb88" }
+  use { "simrat39/rust-tools.nvim", commit = "11dcd674781ba68a951ab4c7b740553cae8fe671" }
 
   -- Telescope
   use { "nvim-telescope/telescope.nvim" }

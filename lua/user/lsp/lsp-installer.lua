@@ -45,6 +45,12 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", pyright_opts, opts)
 	end
 
+  if server == "rust_analyzer" then
+    local rust_opts = require "user.lsp.settings.rust"
+    require("rust-tools").setup(rust_opts)
+    goto continue
+  end
+
 	if server == "jdtls" then --jdtls is handled by ftplugin call
 		goto continue
 	end
