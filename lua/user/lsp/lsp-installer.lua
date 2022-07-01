@@ -20,7 +20,6 @@ local servers = {
 	"yamlls",
 	"sumneko_lua",
 	"dockerls",
-  "sqlls",
 }
 
 lsp_installer.setup()
