@@ -45,6 +45,14 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	end,
 })
 
+-- rust-analyzer doesn't provide continuous linting
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = { "rust" },
+	callback = function()
+		vim.cmd("set autowrite")
+	end,
+})
+
 -- vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost" }, {
 -- 	callback = function()
 -- 		require("user.winbar").get_winbar()
