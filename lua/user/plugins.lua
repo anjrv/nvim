@@ -69,8 +69,6 @@ return packer.startup(function(use)
 
 	-- Colorschemes
 	use({ "Mofiqul/dracula.nvim" }) -- , commit = "a219971291c56bcca3827cb7bd40aaaef23feeca" }
-	-- use { "folke/tokyonight.nvim", commit = "8223c970677e4d88c9b6b6d81bda23daf11062bb" }
-	-- use { "lunarvim/darkplus.nvim", commit = "2584cdeefc078351a79073322eb7f14d7fbb1835" }
 
 	-- cmp plugins
 	use({ "hrsh7th/nvim-cmp" }) -- , commit = "df6734aa018d6feb4d76ba6bda94b1aeac2b378a" }) -- The completion plugin
@@ -114,6 +112,9 @@ return packer.startup(function(use)
 	use({ "vim-pandoc/vim-pandoc" }) -- , commit = "fcdb70e6456362e15db95fbe82f56165ab35de8a" })
 	use({ "vim-pandoc/vim-pandoc-syntax" }) -- , commit = "ff52ed9296715988fc3269b64a903415c3bdf322" })
 	use({ "conornewton/vim-pandoc-markdown-preview" }) -- , commit = "975328c1da15f15f6fd9f0197725044b6a74de49" })
+
+	-- Active node version needs to be LTS
+	-- use({ "github/copilot.vim" })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

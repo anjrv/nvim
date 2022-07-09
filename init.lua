@@ -20,5 +20,6 @@ require("user.indentline")
 require("user.alpha")
 require("user.nvim-webdev-icons")
 require("user.lsp")
+-- require("user.copilot") -- LTS node version required
 -- require("user.dap")
 -- require "user.winbar"
