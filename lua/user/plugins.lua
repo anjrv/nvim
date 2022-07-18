@@ -114,7 +114,7 @@ return packer.startup(function(use)
 	use({ "conornewton/vim-pandoc-markdown-preview" }) -- , commit = "975328c1da15f15f6fd9f0197725044b6a74de49" })
 
 	-- Active node version needs to be LTS
-	-- use({ "github/copilot.vim" })
+	use({ "github/copilot.vim" })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
