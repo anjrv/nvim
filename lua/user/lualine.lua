@@ -146,7 +146,7 @@ local language_server = {
 			language_servers = " [" .. client_names_str .. "] " .. "%*"
 		end
 		if copilot_active then
-			language_servers = language_servers .. "%#SLCopilot#" .. " " .. "%*"
+			language_servers = language_servers .. "%#SLCopilot#" .. "  " .. "%*"
 		end
 
 		if client_names_str_len == 0 and not copilot_active then
