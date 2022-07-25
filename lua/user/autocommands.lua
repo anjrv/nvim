@@ -52,9 +52,3 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.cmd("set autowrite")
 	end,
 })
-
--- vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost" }, {
--- 	callback = function()
--- 		require("user.winbar").get_winbar()
--- 	end,
--- })
