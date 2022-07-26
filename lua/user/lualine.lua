@@ -13,8 +13,8 @@ local function contains(t, value)
 	return false
 end
 
-vim.api.nvim_set_hl(0, "SLTermIcon", { fg = "#b668cd" })
-vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644" })
+-- vim.api.nvim_set_hl(0, "SLTermIcon", { fg = "#b668cd" })
+-- vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644" })
 
 local hide_in_width_60 = function()
 	return vim.o.columns > 60
@@ -61,7 +61,8 @@ local filetype = {
 
 		if str == "toggleterm" then
 			-- 
-			local term = "%#SLTermIcon#" .. ""
+			local term = ""
+			-- local term = "%#SLTermIcon#" .. ""
 			return term
 		end
 
@@ -146,7 +147,7 @@ local language_server = {
 			language_servers = " [" .. client_names_str .. "] " .. "%*"
 		end
 		if copilot_active then
-			language_servers = language_servers .. "%#SLCopilot#" .. "  " .. "%*"
+			language_servers = language_servers .. "  " .. "%*" -- "%#SLCopilot#" .. "  " .. "%*"
 		end
 
 		if client_names_str_len == 0 and not copilot_active then
