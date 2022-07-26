@@ -165,7 +165,7 @@ lualine.setup({
 	options = {
 		globalstatus = true,
 		icons_enabled = true,
-		theme = "dracula",
+		theme = "tokyonight",
 		disabled_filetypes = { "alpha", "dashboard" },
 		always_divide_middle = true,
 	},

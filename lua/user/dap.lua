@@ -56,7 +56,7 @@ dap.configurations.typescript = {
 	reAttach = true,
 	url = "http://localhost:3000",
 	webRoot = "${workspaceFolder}",
-	firefoxExecutable = "/usr/bin/firefox",
+	firefoxExecutable = "/usr/bin/firefox-developer-edition",
 }
 
 dap.configurations.cpp = {
