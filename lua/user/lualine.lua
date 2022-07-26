@@ -13,8 +13,8 @@ local function contains(t, value)
 	return false
 end
 
-vim.api.nvim_set_hl(0, "SLTermIcon", { fg = "#b668cd", bg = "#44475a" })
-vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644", bg = "#44475a" })
+vim.api.nvim_set_hl(0, "SLTermIcon", { fg = "#b668cd" })
+vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644" })
 
 local hide_in_width_60 = function()
 	return vim.o.columns > 60
