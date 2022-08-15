@@ -5,10 +5,10 @@ end
 
 comment.setup({
 	toggler = {
-		line = "/",
+		line = "'",
 	},
 	opleader = {
-		line = "/",
+		line = "'",
 	},
 	pre_hook = function(ctx)
 		local U = require("Comment.utils")
