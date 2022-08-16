@@ -14,7 +14,7 @@ local servers = {
 	"rust_analyzer",
 	"clangd",
 	"cmake",
-	"r_language_server",
+	-- "r_language_server",
 	"pyright",
 	"csharp_ls",
 	"html",
