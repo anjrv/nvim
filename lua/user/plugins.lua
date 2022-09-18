@@ -100,6 +100,7 @@ return packer.startup(function(use)
 	use({ "vim-pandoc/vim-pandoc" })
 	use({ "vim-pandoc/vim-pandoc-syntax" })
 	use({ "conornewton/vim-pandoc-markdown-preview" })
+	-- use({ "ellisonleao/glow.nvim" })
 
 	-- Active node version needs to be LTS
 	-- use({ "github/copilot.vim" })
