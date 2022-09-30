@@ -102,7 +102,7 @@ nvim_tree.setup({
 		number = false,
 		relativenumber = false,
 		width = 30,
-		height = 30,
+		--[[ height = 30, ]]
 		side = "left",
 		mappings = {
 			list = {
