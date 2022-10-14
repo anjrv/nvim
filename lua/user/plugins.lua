@@ -78,6 +78,7 @@ return packer.startup(function(use)
 	use({ "RRethy/vim-illuminate" })
 	use({ "mfussenegger/nvim-jdtls" })
 	use({ "simrat39/rust-tools.nvim" })
+	use({ "scalameta/nvim-metals", requires = { "nvim-lua/plenary.nvim" } })
 
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" })
