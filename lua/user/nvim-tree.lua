@@ -14,11 +14,11 @@ nvim_tree.setup({
 	hijack_directories = {
 		enable = true, -- Open tree when opening vim on a directory
 	},
-	ignore_ft_on_setup = {
-		"startify",
-		"dashboard",
-		"alpha",
-	},
+	-- ignore_ft_on_setup = {
+	-- 	"startify",
+	-- 	"dashboard",
+	-- 	"alpha",
+	-- },
 	filters = {
 		custom = { ".git" },
 		exclude = { ".gitignore" },

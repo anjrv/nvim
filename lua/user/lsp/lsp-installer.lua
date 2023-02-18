@@ -10,21 +10,19 @@ end
 
 local servers = {
 	"jdtls",
-	"gopls",
 	"rust_analyzer",
 	"clangd",
 	"cmake",
 	-- "r_language_server",
 	"pyright",
-	"csharp_ls",
 	"html",
 	"cssls",
 	"tsserver",
 	"bashls",
 	"jsonls",
 	"yamlls",
-	"sumneko_lua",
 	"dockerls",
+  "lua_ls"
 }
 
 local settings = {
