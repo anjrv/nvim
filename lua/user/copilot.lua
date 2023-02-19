@@ -9,14 +9,15 @@ copilot.setup({
 		method = "getCompletionsCycling",
 	},
 	panel = { -- no config options yet
-		enabled = true,
+		enabled = false,
 	},
+	suggestion = { enabled = false },
 	ft_disable = { "markdown" },
-	server_opts_overrides = {
-		settings = {
-			advanced = {
-				inlineSuggestCount = 3,
-			},
-		},
-	},
+	-- server_opts_overrides = {
+	-- 	settings = {
+	-- 		advanced = {
+	-- 			inlineSuggestCount = 3,
+	-- 		},
+	-- 	},
+	-- },
 })
