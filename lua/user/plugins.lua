@@ -55,7 +55,7 @@ return packer.startup(function(use)
 	use({ "goolord/alpha-nvim" })
 
 	-- Colorschemes
-	-- use({ "Mofiqul/dracula.nvim" })
+	use({ "Mofiqul/dracula.nvim" })
 	use({ "folke/tokyonight.nvim" })
 
 	-- cmp plugins

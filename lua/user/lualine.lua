@@ -147,7 +147,7 @@ local language_server = {
 			language_servers = " [" .. client_names_str .. "] " .. "%*"
 		end
 		if copilot_active then
-			language_servers = language_servers .. "  " .. "%*" -- "%#SLCopilot#" .. "  " .. "%*"
+			language_servers = language_servers .. " CP " .. "%*" -- "%#SLCopilot#" .. "  " .. "%*"
 		end
 
 		if client_names_str_len == 0 and not copilot_active then
@@ -166,7 +166,7 @@ lualine.setup({
 	options = {
 		globalstatus = true,
 		icons_enabled = true,
-		theme = "tokyonight",
+		theme = "dracula",
 		disabled_filetypes = { "alpha", "dashboard" },
 		always_divide_middle = true,
 	},
