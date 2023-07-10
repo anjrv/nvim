@@ -13,9 +13,6 @@ local function contains(t, value)
 	return false
 end
 
--- vim.api.nvim_set_hl(0, "SLTermIcon", { fg = "#b668cd" })
--- vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644" })
-
 local hide_in_width_60 = function()
 	return vim.o.columns > 60
 end
@@ -112,9 +109,6 @@ local language_server = {
 			if client.name ~= "copilot" and client.name ~= "null-ls" then
 				table.insert(client_names, client.name)
 			end
-			if client.name == "copilot" then
-				copilot_active = true
-			end
 		end
 
 		-- add formatter
@@ -146,11 +140,8 @@ local language_server = {
 		if client_names_str_len ~= 0 then
 			language_servers = " [" .. client_names_str .. "] " .. "%*"
 		end
-		if copilot_active then
-			language_servers = language_servers .. " CP " .. "%*" -- "%#SLCopilot#" .. "  " .. "%*"
-		end
 
-		if client_names_str_len == 0 and not copilot_active then
+		if client_names_str_len == 0 then
 			return ""
 		else
 			M.language_servers = language_servers
