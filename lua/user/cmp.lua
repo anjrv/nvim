@@ -149,7 +149,7 @@ cmp.setup({
 			vim_item.kind = kind_icons[vim_item.kind]
 
 			if entry.source.name == "copilot" then
-				vim_item.kind = ""
+				vim_item.kind = ""
 				vim_item.kind_hl_group = "CmpItemKindCopilot"
 			end
 
