@@ -21,4 +21,4 @@ require("user.nvim-webdev-icons")
 require("user.lsp")
 require("user.dap")
 require("user.nvim-tree")
-
+require("user.noice")

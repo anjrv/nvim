@@ -112,6 +112,17 @@ return packer.startup(function(use)
 	use({ "conornewton/vim-pandoc-markdown-preview" })
 	-- use({ "ellisonleao/glow.nvim" })
 
+	use({
+		"folke/noice.nvim",
+		requires = {
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+	})
+
 	-- Active node version needs to be LTS
 	use({
 		"zbirenbaum/copilot.lua",
