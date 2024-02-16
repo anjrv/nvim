@@ -157,7 +157,7 @@ lualine.setup({
 	options = {
 		globalstatus = true,
 		icons_enabled = true,
-		theme = "dracula",
+		theme = "dracula-nvim",
 		disabled_filetypes = { "alpha", "dashboard" },
 		always_divide_middle = true,
 	},
