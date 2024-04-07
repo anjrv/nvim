@@ -3,6 +3,8 @@ if not cmp_status_ok then
 	return
 end
 
+local cmp_copilot_status_ok, cmp_copilot = pcall(require, "cmp_copilot")
+
 local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
 	return
