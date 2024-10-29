@@ -35,7 +35,7 @@ require("lazy").setup({
 	"ahmedkhalf/project.nvim",
 	"lewis6991/impatient.nvim",
 	"lukas-reineke/indent-blankline.nvim",
-	"goolord/alpha-nvim",
+	-- "goolord/alpha-nvim",
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		dependencies = {
