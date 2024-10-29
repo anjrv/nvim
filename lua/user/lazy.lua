@@ -35,7 +35,7 @@ require("lazy").setup({
 	"ahmedkhalf/project.nvim",
 	"lewis6991/impatient.nvim",
 	"lukas-reineke/indent-blankline.nvim",
-	"goolord/alpha-nvim",
+	-- "goolord/alpha-nvim",
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		dependencies = {
@@ -110,6 +110,16 @@ require("lazy").setup({
 				lsp_doc_border = true, -- add a border to hover docs and signature help
 			},
 		},
+	},
+
+	{
+		"R-nvim/R.nvim",
+		-- Only required if you also set defaults.lazy = true
+		lazy = false,
+		-- R.nvim is still young and we may make some breaking changes from time
+		-- to time. For now we recommend pinning to the latest minor version
+		-- like so:
+		version = "~0.1.0",
 	},
 
 	{
