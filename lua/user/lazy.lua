@@ -53,7 +53,7 @@ require("lazy").setup({
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
-	"jose-elias-alvarez/null-ls.nvim",
+	-- "jose-elias-alvarez/null-ls.nvim",
 	"RRethy/vim-illuminate",
 	"mfussenegger/nvim-jdtls",
 	"simrat39/rust-tools.nvim",
@@ -89,7 +89,7 @@ require("lazy").setup({
 			-- OPTIONAL:
 			--   `nvim-notify` is only needed, if you want to use the notification view.
 			--   If not available, we use `mini` as the fallback
-			-- "rcarriga/nvim-notify",
+			"rcarriga/nvim-notify",
 		},
 		opts = {
 			notify = { enabled = false },
