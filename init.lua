@@ -139,6 +139,12 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
+local fd_os_release = assert(io.open("/etc/os-release"), "r")
+local s_os_release = fd_os_release:read("*a")
+fd_os_release:close()
+s_os_release = s_os_release:lower()
+local is_nixos = s_os_release:match("nixos")
+
 -- ============================================================================
 -- PLUGINS
 -- ============================================================================
@@ -689,20 +695,32 @@ require("lazy").setup({
 	{
 		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			-- Automatically install LSPs and related tools to stdpath for Neovim
-			-- Mason must be loaded before its dependents so we need to set it up here.
-			-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-			{ "mason-org/mason.nvim", opts = {} },
-			"mason-org/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
-			-- Useful status updates for LSP.
-			{ "j-hui/fidget.nvim", opts = {} },
+		-- Mason binaries are broken on nix
+		dependencies = is_nixos == nil
+				and {
+					-- Automatically install LSPs and related tools to stdpath for Neovim
+					-- Mason must be loaded before its dependents so we need to set it up here.
+					-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
+					{ "mason-org/mason.nvim", opts = {} },
+					"mason-org/mason-lspconfig.nvim",
+					"WhoIsSethDaniel/mason-tool-installer.nvim",
 
-			-- Allows extra capabilities provided by blink.cmp
-			"saghen/blink.cmp",
-		},
+					-- Useful status updates for LSP.
+					{ "j-hui/fidget.nvim", opts = {} },
+
+					-- Allows extra capabilities provided by blink.cmp
+					"saghen/blink.cmp",
+					"simrat39/rust-tools.nvim",
+				}
+			or {
+				-- Useful status updates for LSP.
+				{ "j-hui/fidget.nvim", opts = {} },
+
+				-- Allows extra capabilities provided by blink.cmp
+				"saghen/blink.cmp",
+				"simrat39/rust-tools.nvim",
+			},
 		config = function()
 			--  This function gets run when an LSP attaches to a particular buffer.
 			--    That is to say, every time a new file is opened that is associated with
@@ -890,44 +908,51 @@ require("lazy").setup({
 				},
 			}
 
-			-- Ensure the servers and tools above are installed
-			--
-			-- To check the current status of installed tools and/or manually install
-			-- other tools, you can run
-			--    :Mason
-			--
-			-- You can press `g?` for help in this menu.
-			--
-			-- `mason` had to be setup earlier: to configure its options see the
-			-- `dependencies` table for `nvim-lspconfig` above.
-			--
-			-- You can add other tools here that you want Mason to install
-			-- for you, so that they are available from within Neovim.
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format Lua code
-			})
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+			if is_nixos == nil then
+				-- Ensure the servers and tools above are installed
+				local ensure_installed = vim.tbl_keys(servers or {})
+				vim.list_extend(ensure_installed, {
+					"stylua", -- Used to format Lua code
+				})
+				require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-			require("mason-lspconfig").setup({
-				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-				automatic_installation = false,
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for ts_ls)
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
-			})
+				require("mason-lspconfig").setup({
+					ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+					automatic_installation = false,
+					automatic_enable = true,
+					handlers = {
+						function(server)
+							local opts = servers[server] or {}
+							-- This handles overriding only values explicitly passed
+							-- by the server configuration above. Useful when disabling
+							-- certain features of an LSP (for example, turning off formatting for ts_ls)
+							opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
+							if server == "rust_analyzer" then
+								require("rust-tools").setup(opts)
+							else
+								require("lspconfig")[server].setup(opts)
+							end
+						end,
+					},
+				})
+			else
+				for server, opts in pairs(servers) do
+					if server == "rust_analyzer" then
+						require("rust-tools").setup(opts)
+						goto continue
+					end
+
+					if server == "jdtls" then -- write a gigantic handler thing for this monstorsity
+						goto continue
+					end
+
+					require("lspconfig").lspconfig[server].setup(opts)
+					::continue::
+				end
+			end
 		end,
 	},
 
-	-- Additional LSPs
-	"simrat39/rust-tools.nvim",
 	{
 		"scalameta/nvim-metals",
 		dependencies = {
