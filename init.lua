@@ -946,7 +946,7 @@ require("lazy").setup({
 						goto continue
 					end
 
-					require("lspconfig").lspconfig[server].setup(opts)
+					require("lspconfig")[server].setup(opts)
 					::continue::
 				end
 			end
