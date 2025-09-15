@@ -139,11 +139,16 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
-local fd_os_release = assert(io.open("/etc/os-release"), "r")
-local s_os_release = fd_os_release:read("*a")
-fd_os_release:close()
-s_os_release = s_os_release:lower()
-local is_nixos = s_os_release:match("nixos")
+local is_nixos = nil
+-- Systemd os-release check, this would break on non systemd nixos
+local fd_os_release = io.open("/etc/os-release", "r")
+
+if fd_os_release ~= nil then
+	local s_os_release = fd_os_release:read("*a")
+	fd_os_release:close()
+	s_os_release = s_os_release:lower()
+	is_nixos = s_os_release:match("nixos")
+end
 
 -- ============================================================================
 -- PLUGINS
