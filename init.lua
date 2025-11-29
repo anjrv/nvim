@@ -72,9 +72,7 @@ vim.opt.iskeyword:append("-") -- Treat dash as part of word
 vim.opt.path:append("**") -- include subdirectories in search
 vim.opt.selection = "exclusive" -- Selection behavior
 vim.opt.mouse = "a" -- Enable mouse support
-vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
-end) -- Use system clipboard
+vim.o.clipboard = "unnamedplus" -- Use system clipboard
 vim.opt.modifiable = true -- Allow buffer modifications
 vim.opt.encoding = "UTF-8" -- Set encoding
 
@@ -920,7 +918,6 @@ require("lazy").setup({
 					"stylua", -- Used to format Lua code
 				})
 				require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
 				require("mason-lspconfig").setup({
 					ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
 					automatic_installation = false,
@@ -947,7 +944,7 @@ require("lazy").setup({
 						goto continue
 					end
 
-					if server == "jdtls" then -- write a gigantic handler thing for this monstorsity
+					if server == "jdtls" then -- write a gigantic handler thing for this monstrosity
 						goto continue
 					end
 
@@ -957,14 +954,212 @@ require("lazy").setup({
 			end
 		end,
 	},
-
 	{
 		"scalameta/nvim-metals",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			-- "j-hui/fidget.nvim", -- optional notifs, handled by noice
+			{
+				"mfussenegger/nvim-dap",
+				lazy = true,
+				dependencies = {
+					"jay-babu/mason-nvim-dap.nvim",
+					{
+						"rcarriga/nvim-dap-ui",
+						config = true,
+						keys = {
+							{
+								"<leader>du",
+								function()
+									require("dapui").toggle({})
+								end,
+								desc = "Dap UI",
+							},
+							{
+								"<leader>de",
+								function()
+									require("dapui").eval()
+								end,
+								desc = "Dap Eval",
+								mode = { "n", "x" },
+							},
+						},
+					},
+					{
+						"theHamsta/nvim-dap-virtual-text",
+						opts = {},
+					},
+					"nvim-neotest/nvim-nio",
+				},
+				config = function(self, opts)
+					-- Debug settings if you're using nvim-dap
+					local dap, dapui = require("dap"), require("dapui")
+					require("dapui").setup()
+
+					dap.listeners.after.event_initialized["dapui_config"] = function()
+						dapui.open({})
+					end
+					dap.listeners.before.event_terminated["dapui_config"] = function()
+						dapui.close({})
+					end
+					dap.listeners.before.event_exited["dapui_config"] = function()
+						dapui.close({})
+					end
+					dap.configurations.scala = {
+						{
+							type = "scala",
+							request = "launch",
+							name = "RunOrTest",
+							metals = {
+								runType = "runOrTestFile",
+								--args = { "firstArg", "secondArg", "thirdArg" }, -- here just as an example
+							},
+						},
+						{
+							type = "scala",
+							request = "launch",
+							name = "Test Target",
+							metals = {
+								runType = "testTarget",
+							},
+						},
+					}
+				end,
+				keys = {
+					{
+						"<leader>db",
+						function()
+							require("dap").toggle_breakpoint()
+						end,
+						desc = "Toggle Breakpoint",
+					},
+
+					{
+						"<leader>dc",
+						function()
+							require("dap").continue()
+						end,
+						desc = "Continue",
+					},
+
+					{
+						"<leader>dC",
+						function()
+							require("dap").run_to_cursor()
+						end,
+						desc = "Run to Cursor",
+					},
+
+					{
+						"<leader>dT",
+						function()
+							require("dap").terminate()
+						end,
+						desc = "Terminate",
+					},
+				},
+			},
 		},
 		ft = { "scala", "sbt", "java" },
+		opts = function()
+			local metals_config = require("metals").bare_config()
+			metals_config.settings = {
+				showImplicitArguments = true,
+				excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+			}
+
+			metals_config.init_options.statusBarProvider = "off"
+			metals_config.capabilities = require("blink.cmp").get_lsp_capabilities()
+			metals_config.settings = {
+				verboseCompilation = true,
+				showImplicitArguments = true,
+				showImplicitConversionsAndClasses = true,
+				showInferredType = true,
+				superMethodLensesEnabled = true,
+				excludedPackages = {
+					"akka.actor.typed.javadsl",
+					"org.apache.pekko.actor.typed.javadsl",
+					"com.github.swagger.akka.javadsl",
+				},
+				testUserInterface = "Test Explorer",
+			}
+
+			metals_config.on_attach = function(client, bufnr)
+				require("metals").setup_dap()
+
+				-- LSP mappings
+				-- map("n", "gD", vim.lsp.buf.definition)
+				-- map("n", "K", vim.lsp.buf.hover)
+				-- map("n", "gi", vim.lsp.buf.implementation)
+				-- map("n", "gr", vim.lsp.buf.references)
+				-- map("n", "gds", vim.lsp.buf.document_symbol)
+				-- map("n", "gws", vim.lsp.buf.workspace_symbol)
+				-- map("n", "<leader>cl", vim.lsp.codelens.run)
+				-- map("n", "<leader>sh", vim.lsp.buf.signature_help)
+				-- map("n", "<leader>rn", vim.lsp.buf.rename)
+				-- map("n", "<leader>lf", vim.lsp.buf.format)
+				-- map("n", "<leader>ca", vim.lsp.buf.code_action)
+				-- map("n", "<leader>ws", function()
+				-- 	require("metals").hover_worksheet()
+				-- end)
+
+				-- -- all workspace diagnostics
+				-- map("n", "<leader>aa", vim.diagnostic.setqflist)
+
+				-- -- all workspace errors
+				-- map("n", "<leader>ae", function()
+				-- 	vim.diagnostic.setqflist({ severity = "E" })
+				-- end)
+
+				-- -- all workspace warnings
+				-- map("n", "<leader>aw", function()
+				-- 	vim.diagnostic.setqflist({ severity = "W" })
+				-- end)
+
+				-- -- buffer diagnostics only
+				-- map("n", "<leader>d", vim.diagnostic.setloclist)
+
+				-- map("n", "[c", function()
+				-- 	vim.diagnostic.goto_prev({ wrap = false })
+				-- end)
+
+				-- map("n", "]c", function()
+				-- 	vim.diagnostic.goto_next({ wrap = false })
+				-- end)
+
+				-- -- Example mappings for usage with nvim-dap. If you don't use that, you can
+				-- -- skip these
+				-- map("n", "<leader>dc", function()
+				-- 	require("dap").continue()
+				-- end)
+
+				-- map("n", "<leader>dr", function()
+				-- 	require("dap").repl.toggle()
+				-- end)
+
+				-- map("n", "<leader>dK", function()
+				-- 	require("dap.ui.widgets").hover()
+				-- end)
+
+				-- map("n", "<leader>dt", function()
+				-- 	require("dap").toggle_breakpoint()
+				-- end)
+
+				-- map("n", "<leader>dso", function()
+				-- 	require("dap").step_over()
+				-- end)
+
+				-- map("n", "<leader>dsi", function()
+				-- 	require("dap").step_into()
+				-- end)
+
+				-- map("n", "<leader>dl", function()
+				-- 	require("dap").run_last()
+				-- end)
+			end
+
+			return metals_config
+		end,
 		config = function(self, metals_config)
 			local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 			vim.api.nvim_create_autocmd("FileType", {
