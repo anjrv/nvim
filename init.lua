@@ -1038,6 +1038,7 @@ require("lazy").setup({
 				ts_ls = {},
 				cssls = {},
 				eslint = {},
+        nil_ls = {},
 				lua_ls = {
 					-- cmd = { ... },
 					-- filetypes = { ... },
@@ -1347,7 +1348,8 @@ require("lazy").setup({
 					json = { "prettier" },
 					yaml = { "prettier" },
 					markdown = { "prettier" },
-					lua = { "stylua" },
+					lua = { "stylua" }
+
 				},
 			})
 
