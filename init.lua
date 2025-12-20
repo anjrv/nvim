@@ -1038,7 +1038,7 @@ require("lazy").setup({
 				ts_ls = {},
 				cssls = {},
 				eslint = {},
-        nil_ls = {},
+				nil_ls = {},
 				lua_ls = {
 					-- cmd = { ... },
 					-- filetypes = { ... },
@@ -1076,7 +1076,8 @@ require("lazy").setup({
 							if server == "rust_analyzer" then
 								require("rust-tools").setup(opts)
 							else
-								require("lspconfig")[server].setup(opts)
+								vim.lsp.config(server, opts)
+								vim.lsp.enable({ server })
 							end
 						end,
 					},
@@ -1092,7 +1093,8 @@ require("lazy").setup({
 						goto continue
 					end
 
-					require("lspconfig")[server].setup(opts)
+					vim.lsp.config(server, opts)
+					vim.lsp.enable({ server })
 					::continue::
 				end
 			end
@@ -1348,8 +1350,7 @@ require("lazy").setup({
 					json = { "prettier" },
 					yaml = { "prettier" },
 					markdown = { "prettier" },
-					lua = { "stylua" }
-
+					lua = { "stylua" },
 				},
 			})
 
@@ -1522,9 +1523,18 @@ require("lazy").setup({
 
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
-		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+		event = "VeryLazy",
+		dependencies = {
+			{ "folke/ts-comments.nvim", opts = {} },
+		},
+
+		branch = "main",
+		build = function()
+			-- update parsers, if TSUpdate exists
+			if vim.fn.exists(":TSUpdate") == 2 then
+				vim.cmd("TSUpdate")
+			end
+		end,
 		opts = {
 			ensure_installed = {
 				"bash",
@@ -1553,6 +1563,137 @@ require("lazy").setup({
 			indent = { enable = true, disable = { "ruby" } },
 		},
 	},
+
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		event = "VeryLazy",
+
+		branch = "main",
+
+		keys = {
+			{
+				"[f",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer", "textobjects")
+				end,
+				desc = "prev function",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"]f",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer", "textobjects")
+				end,
+				desc = "next function",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"[F",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_previous_end("@function.outer", "textobjects")
+				end,
+				desc = "prev function end",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"]F",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_next_end("@function.outer", "textobjects")
+				end,
+				desc = "next function end",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"[a",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_previous_start("@parameter.outer", "textobjects")
+				end,
+				desc = "prev argument",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"]a",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_next_start("@parameter.outer", "textobjects")
+				end,
+				desc = "next argument",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"[A",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_previous_end("@parameter.outer", "textobjects")
+				end,
+				desc = "prev argument end",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"]A",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_next_end("@parameter.outer", "textobjects")
+				end,
+				desc = "next argument end",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"[s",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_previous_start("@block.outer", "textobjects")
+				end,
+				desc = "prev block",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"]s",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_next_start("@block.outer", "textobjects")
+				end,
+				desc = "next block",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"[S",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_previous_end("@block.outer", "textobjects")
+				end,
+				desc = "prev block",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"]S",
+				function()
+					require("nvim-treesitter-textobjects.move").goto_next_end("@block.outer", "textobjects")
+				end,
+				desc = "next block",
+				mode = { "n", "x", "o" },
+			},
+			{
+				"gan",
+				function()
+					require("nvim-treesitter-textobjects.swap").swap_next("@parameter.inner")
+				end,
+				desc = "swap next argument",
+			},
+			{
+				"gap",
+				function()
+					require("nvim-treesitter-textobjects.swap").swap_previous("@parameter.inner")
+				end,
+				desc = "swap prev argument",
+			},
+		},
+
+		opts = {
+			move = {
+				enable = true,
+				set_jumps = true,
+			},
+			swap = {
+				enable = true,
+			},
+		},
+	},
+
 	{
 		"kdheepak/lazygit.nvim",
 		lazy = true,
