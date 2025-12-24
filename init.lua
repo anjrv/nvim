@@ -870,8 +870,9 @@ require("lazy").setup({
           -- Allows extra capabilities provided by blink.cmp
           "saghen/blink.cmp",
           {
-            "simrat39/rust-tools.nvim",
-            ft = { "rust", "rs", "toml" },
+            'mrcjkb/rustaceanvim',
+            version = '^6', -- Recommended
+            lazy = false,   -- This plugin is already lazy
           },
         },
     config = function()
