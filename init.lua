@@ -1071,9 +1071,6 @@ require("lazy").setup({
 					handlers = {
 						function(server)
 							local opts = servers[server] or {}
-							-- This handles overriding only values explicitly passed
-							-- by the server configuration above. Useful when disabling
-							-- certain features of an LSP (for example, turning off formatting for ts_ls)
 							opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
 							vim.lsp.config(server, opts)
 							vim.lsp.enable({ server })
@@ -1081,10 +1078,10 @@ require("lazy").setup({
 					},
 				})
 			else
-				vim.list_extend(servers, {
-					"nil_ls", -- Nix config LSP
-				})
+        servers.nil_ls = {}
 				for server, opts in pairs(servers) do
+					local opts = servers[server] or {}
+					opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
 					vim.lsp.config(server, opts)
 					vim.lsp.enable({ server })
 				end
@@ -1100,7 +1097,6 @@ require("lazy").setup({
 				"mfussenegger/nvim-dap",
 				lazy = true,
 				dependencies = {
-					"jay-babu/mason-nvim-dap.nvim",
 					{
 						"rcarriga/nvim-dap-ui",
 						config = true,
