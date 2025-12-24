@@ -857,7 +857,10 @@ require("lazy").setup({
 
 					-- Allows extra capabilities provided by blink.cmp
 					"saghen/blink.cmp",
-					"simrat39/rust-tools.nvim",
+					{
+						"simrat39/rust-tools.nvim",
+						ft = { "rust", "rs", "toml" },
+					},
 				}
 			or {
 				-- Useful status updates for LSP.
@@ -865,7 +868,10 @@ require("lazy").setup({
 
 				-- Allows extra capabilities provided by blink.cmp
 				"saghen/blink.cmp",
-				"simrat39/rust-tools.nvim",
+				{
+					"simrat39/rust-tools.nvim",
+					ft = { "rust", "rs", "toml" },
+				},
 			},
 		config = function()
 			--  This function gets run when an LSP attaches to a particular buffer.
@@ -1038,7 +1044,6 @@ require("lazy").setup({
 				ts_ls = {},
 				cssls = {},
 				eslint = {},
-				nil_ls = {},
 				lua_ls = {
 					-- cmd = { ... },
 					-- filetypes = { ... },
@@ -1058,9 +1063,6 @@ require("lazy").setup({
 			if is_nixos == nil then
 				-- Ensure the servers and tools above are installed
 				local ensure_installed = vim.tbl_keys(servers or {})
-				vim.list_extend(ensure_installed, {
-					"stylua", -- Used to format Lua code
-				})
 				require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 				require("mason-lspconfig").setup({
 					ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
@@ -1073,29 +1075,18 @@ require("lazy").setup({
 							-- by the server configuration above. Useful when disabling
 							-- certain features of an LSP (for example, turning off formatting for ts_ls)
 							opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
-							if server == "rust_analyzer" then
-								require("rust-tools").setup(opts)
-							else
-								vim.lsp.config(server, opts)
-								vim.lsp.enable({ server })
-							end
+							vim.lsp.config(server, opts)
+							vim.lsp.enable({ server })
 						end,
 					},
 				})
 			else
+				vim.list_extend(servers, {
+					"nil_ls", -- Nix config LSP
+				})
 				for server, opts in pairs(servers) do
-					if server == "rust_analyzer" then
-						require("rust-tools").setup(opts)
-						goto continue
-					end
-
-					if server == "jdtls" then -- write a gigantic handler thing for this monstrosity
-						goto continue
-					end
-
 					vim.lsp.config(server, opts)
 					vim.lsp.enable({ server })
-					::continue::
 				end
 			end
 		end,
@@ -1350,7 +1341,6 @@ require("lazy").setup({
 					json = { "prettier" },
 					yaml = { "prettier" },
 					markdown = { "prettier" },
-					lua = { "stylua" },
 				},
 			})
 
@@ -1523,7 +1513,7 @@ require("lazy").setup({
 
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 		dependencies = {
 			{ "folke/ts-comments.nvim", opts = {} },
 		},
